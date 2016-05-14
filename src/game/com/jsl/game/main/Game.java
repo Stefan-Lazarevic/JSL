@@ -10,9 +10,9 @@ public class Game{
 		
 		screenManager = new ScreenManager();
 		
-		screenManager.setScreenEnvironment("Game", 1366, 768, 32, true);
+		screenManager.setScreenEnvironment("Game", 600, 600, 32, false);
 		
-		screenManager.gameStart(60, true);	
+		screenManager.gameStart(60, true);
+		
 	}
-	
 }

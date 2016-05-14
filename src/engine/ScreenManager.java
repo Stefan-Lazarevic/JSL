@@ -40,9 +40,9 @@ public class ScreenManager extends Canvas implements Runnable{
 	private boolean gameRunning;
 	
 	private float FPS;
-	private Float currentFPS = 30f;
+	private Float currentFPS = 60f;
 	private boolean showFPS;
-
+	
 	public ScreenManager(){
 		GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    this.device = environment.getDefaultScreenDevice();
@@ -50,6 +50,8 @@ public class ScreenManager extends Canvas implements Runnable{
 	    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	    graphicWidth = screenSize.getWidth();
 	    graphicHeight = screenSize.getHeight();
+	    
+	    addKeyListener(Keyboard.keyboard);
 	}
 	
 	public void setScreenEnvironment(String TITLE, int WIDTH, int HEIGHT, int BITDEPTH, boolean FULLSCREEN){
@@ -113,7 +115,7 @@ public class ScreenManager extends Canvas implements Runnable{
 			lastTime = now;
 			
 			if(unprocessed >= 1.0){
-				//update();
+				update();
 				unprocessed--;
 				updateCount++;
 				canPaint = true;
@@ -140,6 +142,10 @@ public class ScreenManager extends Canvas implements Runnable{
 				updateCount = 0;
 			}
 		}
+	}
+	
+	public void update(){
+		Keyboard.poll();
 	}
 
 	public void paint(int FPS, int UPS){
@@ -179,7 +185,7 @@ public class ScreenManager extends Canvas implements Runnable{
 		setShowFPS(showFPS);
 		setFPS(FPS);
 	}
-
+	
 	public float getFPS() {
 		return FPS;
 	}
