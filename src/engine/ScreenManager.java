@@ -35,6 +35,8 @@ public class ScreenManager extends Canvas implements Runnable{
 	private boolean fullScreen;
 	private double graphicWidth;
 	private double graphicHeight;
+	public static int width;
+	public static int height;
 	
 	private Thread game_thread;
 	private boolean gameRunning;
@@ -42,6 +44,8 @@ public class ScreenManager extends Canvas implements Runnable{
 	private float FPS;
 	private Float currentFPS = 60f;
 	private boolean showFPS;
+	
+	public GameStateManager gsm;
 	
 	public ScreenManager(){
 		GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -52,6 +56,9 @@ public class ScreenManager extends Canvas implements Runnable{
 	    graphicHeight = screenSize.getHeight();
 	    
 	    addKeyListener(Keyboard.keyboard);
+	    
+	    gsm = new GameStateManager();
+	        
 	}
 	
 	public void setScreenEnvironment(String TITLE, int WIDTH, int HEIGHT, int BITDEPTH, boolean FULLSCREEN){
@@ -72,9 +79,13 @@ public class ScreenManager extends Canvas implements Runnable{
 					device.setDisplayMode(displayMode);
 				}
 				device.setFullScreenWindow(frame);
+				width = device.getFullScreenWindow().getWidth();
+				height = device.getFullScreenWindow().getHeight();
 				frame.add(this);
 			}
 			else{
+				width = WIDTH;
+				height = HEIGHT;
 				setPreferredSize(new Dimension(WIDTH, HEIGHT));
 				frame.add(this);
 				frame.pack();
@@ -82,9 +93,9 @@ public class ScreenManager extends Canvas implements Runnable{
 				
 			}
 			setFocusable(true);
-			requestFocus();
-			
 			frame.setVisible(true);
+			
+			requestFocus();
 		}
 		else{
 			JOptionPane.showMessageDialog(frame, "Resolution is not supported, Please make sure to set resolution more than " + WIDTH + "x" + HEIGHT + " in order to play this game.");
@@ -146,6 +157,8 @@ public class ScreenManager extends Canvas implements Runnable{
 	
 	public void update(){
 		Keyboard.poll();
+		
+		gsm.update();
 	}
 
 	public void paint(int FPS, int UPS){
@@ -163,6 +176,8 @@ public class ScreenManager extends Canvas implements Runnable{
 		
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		
+		gsm.paint(g);
 		
 		if(showFPS && fullScreen){
 			g.setColor(Color.WHITE);

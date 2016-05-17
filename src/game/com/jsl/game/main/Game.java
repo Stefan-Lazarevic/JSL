@@ -2,17 +2,24 @@ package game.com.jsl.game.main;
 
 import engine.ScreenManager;
 
-public class Game{
+public class Game extends ScreenManager{
+	private static final long serialVersionUID = 1L;
 	
-	private static ScreenManager screenManager;
+	//private GameStateManager gsm;
+	
+	public Game(){
+		
+		setScreenEnvironment("Game", 800, 600, 32, false);
+		
+		gameStart(60, true);
+		
+		gsm.add(new Menu(gsm, this));
+		
+	}
 
 	public static void main(String[] args) {
 		
-		screenManager = new ScreenManager();
-		
-		screenManager.setScreenEnvironment("Game", 600, 600, 32, false);
-		
-		screenManager.gameStart(60, true);
+		new Game();
 		
 	}
 }
